@@ -1,0 +1,56 @@
+#! /bin/sh
+# /etc/init.d/dyndns
+
+### BEGIN INIT INFO
+# Provides:          noip2
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Simple script to start a program at boot
+# Description:       A simple script from www.stuffaboutcode.com which will start / stop a program a boot / shutdown.
+### END INIT INFO
+
+# The below steps will allow the script to be a service command
+# export $PATH=/usr/bin
+# ln -s /etc/init.d/dyndns /usr/bin/dyndns
+
+DATE=$(date)
+ID=$(pidof noip2)
+
+case "$1" in
+  start)
+    echo "$DATE Starting noip2" >> /var/log/ttlpilog
+    /usr/local/bin/noip2
+    echo "$DATE noip2 started PID=$ID" >> /var/log/ttlpilog
+    ;;
+
+  stop)
+    echo "$DATE Stopping noip2 PID=$ID" >> /var/log/ttlpilog
+    killall noip2
+    ;;
+
+  restart)
+    echo "$DATE Stopping noip2 PID=$ID" >> /var/log/ttlpilog
+    killall noip2
+    /usr/local/bin/noip2
+    echo "$DATE noip2 re-started PID=$ID" >> /var/log/ttlpilog
+    ;;
+
+  status)
+    if ps aux | grep [n]oip2 > /dev/null
+     then
+      echo "pid=$ID noip2 is running..."
+     else
+      echo "Stopped..."
+    fi
+    ;;
+
+  *)
+    echo "Usage: /etc/init.d/noip2 {start|stop|restart|status}"
+    exit 1
+    ;;
+
+esac
+
+exit 0
