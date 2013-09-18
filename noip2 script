@@ -22,7 +22,7 @@ case "$1" in
   start)
     echo "$DATE Starting noip2" >> /var/log/ttlpilog
     /usr/local/bin/noip2
-    echo "$DATE noip2 started PID=$ID" >> /var/log/ttlpilog
+    echo "$DATE noip2 started $(pidof noip2)" >> /var/log/ttlpilog
     ;;
 
   stop)
