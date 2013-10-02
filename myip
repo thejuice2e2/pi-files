@@ -1,0 +1,22 @@
+#! /bin/bash
+
+#This script finds IP address of ETH0 and WLAN0.  It also finds the public IP address of your machine.
+
+#Command to find the IP address of ETH0
+ETH0="$(ifconfig | grep 'inet' | grep addr: | awk '{print $2}' | sed -e 's/addr\://' -e 's/127.*//')"
+
+#Command to find the IP address of WLAN0
+WLAN0="$(ifconfig | grep 'wlan0' | grep add: | awk '{print $2}' | sed -e 's/addr\://' -e 's/127.*//')"
+
+#The commands to find the IP address of ETH0 and WLAN0 can be reused to find any other interfaces that my be present
+#just copy the whole commnad, assign it a new variable, and change the first grep string to find the interface
+#you are wanting to display.  Once that is completed just add and echo string to display the variable information
+#in the terminal
+
+#Command to find the public IP address
+PUBLIC="$(curl -s http://ipecho.net/plain)"
+
+#Command to display the addresses of all interfaces
+echo ETH0 IP address is $ETH0
+echo WLAN0 IP addess is $WLAN0
+echo Your public IP address is $PUBLIC
