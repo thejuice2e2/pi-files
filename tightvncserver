@@ -1,0 +1,35 @@
+#! /bin/sh
+# /etc/init.d/vnc
+#
+### BEGIN INIT INFO
+# Provides:          tightvncserver
+# Required-Start:
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Starts daemon at boot time
+# Description:       Enable service provided by daemon
+### END INIT INFO
+
+export USER='pi'
+
+case "$1" in
+  start)
+     su $USER -c '/usr/bin/tightvncserver -localhost :1'
+     echo "Tightvncserver is running"
+     ;;
+  stop)
+     killall Xtightvnc
+     echo "Tightvncserver has been shut down"
+     ;;
+  restart)
+     killall Xtightvnc
+     /usr/bin/tightvncserver -localhost :1
+     echo "Tightvncserver server has been restarted"
+     ;;
+  *)
+     echo "Usage: /etc/init.d/tightvncserver {start|stop|restart}"
+     exit 1
+     ;;
+esac
+exit 0
