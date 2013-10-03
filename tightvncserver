@@ -11,25 +11,35 @@
 # Description:       Enable service provided by daemon
 ### END INIT INFO
 
+#This is the export list of users allowed to run the tightvncserver at startup and shutdown
 export USER='pi'
 
 case "$1" in
+
+#This starts the tightvncserver and allows you to only connect to it localy or through a tunnel.
+#Putty can create the tunnel when you ssh to the box, but requires configuration to make that happen.
+#The commandline to create the tunnel when you ssh to box is ssh pi@xxx.xxx.xxx.xxx -L 5901:localhost:5901
   start)
      su $USER -c '/usr/bin/tightvncserver -localhost :1'
      echo "Tightvncserver is running"
      ;;
+     
   stop)
      killall Xtightvnc
      echo "Tightvncserver has been shut down"
      ;;
+     
   restart)
      killall Xtightvnc
      /usr/bin/tightvncserver -localhost :1
      echo "Tightvncserver server has been restarted"
      ;;
+     
   *)
      echo "Usage: /etc/init.d/tightvncserver {start|stop|restart}"
      exit 1
      ;;
+     
 esac
+
 exit 0
