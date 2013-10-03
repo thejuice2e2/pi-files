@@ -37,7 +37,7 @@ case "$1" in
      ;;
 
   status)
-     if ps aux | grep [X]tightvnc > dev/null
+     if ps aux | grep [X]tightvnc > /dev/null
       then
        echo "PID=$(pidof Xtightvnc) tightvncserver is running..."
       else
