@@ -21,19 +21,19 @@ DATE=$(date)
 case "$1" in
   start)
     echo "$DATE Startting noip2" | tee -a /var/log/pilog
-    /usr/local/bin/noip2 2>&1 | tee -a /var/log/pilog
+    /usr/local/bin/noip2
     echo "$DATE noip2 started $(pidof noip2)" | tee -a /var/log/pilog
     ;;
 
   stop)
     echo "$DATE noip2 stopped PID=$(pidof noip2)" | tee -a /var/log/pilog
-    killall noip2 2>&1 | tee -a /var/log/pilog
+    killall noip2
     ;;
 
   restart)
     echo "$DATE noip2 stopped PID=$(pidof noip2)" | tee -a /var/log/pilog
-    killall noip2 2>&1 | tee -a /var/log/pilog
-    /usr/local/bin/noip2 2>&1 | tee -a /var/log/pilog
+    killall noip2
+    /usr/local/bin/noip2
     echo "$DATE noip2 re-started PID=$(pidof noip2)"  | tee -a /var/log/pilog
     ;;
 
