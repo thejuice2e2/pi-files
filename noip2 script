@@ -22,19 +22,19 @@ case "$1" in
   start)
     echo "$DATE Starting noip2" >> /var/log/ttlpilog
     /usr/local/bin/noip2
-    echo "$DATE noip2 started $(pidof noip2)" >> /var/log/ttlpilog
+    echo "$DATE noip2 started $(pidof noip2)" >> /var/log/pilog
     ;;
 
   stop)
-    echo "$DATE Stopping noip2 PID=$ID" >> /var/log/ttlpilog
+    echo "$DATE Stopping noip2 PID=$ID" >> /var/log/pilog
     killall noip2
     ;;
 
   restart)
-    echo "$DATE Stopping noip2 PID=$ID" >> /var/log/ttlpilog
+    echo "$DATE Stopping noip2 PID=$ID" >> /var/log/pilog
     killall noip2
     /usr/local/bin/noip2
-    echo "$DATE noip2 re-started PID=$ID" >> /var/log/ttlpilog
+    echo "$DATE noip2 re-started PID=$ID" >> /var/log/pilog
     ;;
 
   status)
