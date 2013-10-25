@@ -11,6 +11,12 @@
 # Short-Description: Starts noip2
 ### END INIT INFO
 
+# Put this script in the /home/pi/pittl folder
+# run sudo ln -s /home/pi/pittl/dyndns dyndns
+# sudo update-rc.d dyndns default
+# sudo vi /etc/sudoers
+# add :/home/pi/pittl to the "Defaults" "secure_path" section
+# This will allow to run all the command functions as sudo
 # The lsb init functions
 . /lib/lsb/init-functions
 
