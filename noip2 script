@@ -47,7 +47,7 @@ case "$1" in
   echo "$DATE $NAME stopped PID=$PID" | tee -a $LOG
   killall $NAME 2>&1 | tee -a $LOG
   $DAEMON 2>&1 | tee -a $LOG
-  echo "$DATE $NAME re-started PID=$PID"  | tee -a $LOG
+  echo "$DATE $NAME re-started PID=$(pidof $NAME)"  | tee -a $LOG
  ;;
 
  status)
