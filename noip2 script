@@ -1,80 +1,64 @@
 #! /bin/sh
 # /etc/init.d/dyndns
-#
-#
+
 ### BEGIN INIT INFO
-# Provides: noip2
-# Required-Start: $remote_fs $syslog
-# Required-Stop: $remote_fs $syslog
-# Default-Start: 2 3 4 5
-# Default-Stop: 0 1 6
-# Short-Description: Starts noip2
+# Provides:          noip2
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: noip2 script
+# Description:       This is a script that reports to the dyndns service of www.noip.org.
 ### END INIT INFO
 
 # Put this script in the /home/pi/pittl folder
-# run sudo ln -s /home/pi/pittl/dyndns dyndns
-# sudo update-rc.d dyndns default
+# run sudo ln -s /home/pi/pittl/noip /etc/init.d/noip
+# sudo update-rc.d noip default
 # sudo vi /etc/sudoers
 # add :/home/pi/pittl to the "Defaults" "secure_path" section
 # This will allow to run all the command functions as sudo
+
+# The below steps will allow the script to run when in root
+# sudo ln -s /home/pi/pittl/noip /usr/local/bin/noip
+
 # The lsb init functions
 . /lib/lsb/init-functions
 
-# Variables
+#Variables
 DATE=$(date)
 NAME=noip2
 DAEMON=/usr/local/bin/noip2
 PID=$(pidof noip2)
+LOG=/home/pi/pittl/log
 
 case "$1" in
-
  start)
-
-   if [ -e $DAEMON ]; then
-    status_of_proc $DAEMON "$NAME" && status="0" || status="$?"
-   if [ $status = "0" ]; then
-    exit
-   else
-    start-stop-daemon -S -q -o -x $DAEMON
-    log_success_msg "$NAME ($(pidof noip2)) is running"
-    echo "$DATE noip2 $(pidof noip2) started" >> /home/pi/pittl/log
-   fi
-   fi
-
-;;
+  echo "$DATE Startting $NAME" | tee -a $LOG
+  $DAEMON 2>&1 | tee -a $LOG
+  echo "$DATE $NAME started $PID" | tee -a $LOG
+ ;;
 
  stop)
-
-  if [ -e $DAEMON ]; then
-   status_of_proc $DAEMON "$NAME" && status="0" || status="$?"
-   if [ "$status" = 0 ]; then
-    start-stop-daemon -K -q -o -n $NAME
-    log_success_msg "$NAME is stopped"
-    echo "$DATE noip2 $PID stopped" >> /home/pi/pittl/log
-   fi
-  else
-   log_daemon_msg "$NAME process is not running"
-  fi
-
-;;
+  echo "$DATE $NAME stopped PID=$PID" | tee -a $LOG
+  killall $NAME 2>&1 | tee -a $LOG
+ ;;
 
  restart)
-
-  $0 stop && sleep 2 && $0 start
-
-;;
+  echo "$DATE $NAME stopped PID=$PID" | tee -a $LOG
+  killall $NAME 2>&1 | tee -a $LOG
+  $DAEMON 2>&1 | tee -a $LOG
+  echo "$DATE $NAME re-started PID=$PID"  | tee -a $LOG
+ ;;
 
  status)
+  status_of_proc $DAEMON "$NAME $PID process"
+ ;;
 
- status_of_proc $DAEMON "$NAME ($(pidof noip2)) process"
-
-;;
-
-*)
-
- echo "Usage: $0 {start|stop|restart|status}"
- exit 2
-
-;;
+ *)
+  echo "Usage: /etc/init.d/noip2 {start|stop|restart|status}"
+  exit 1
+ ;;
 
 esac
+
+exit 0
