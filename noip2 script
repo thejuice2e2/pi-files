@@ -11,8 +11,8 @@
 # Description:       This is a script that reports to the dyndns service of www.noip.org.
 ### END INIT INFO
 
-# Put this script in the /home/pi/pittl folder
-# run sudo ln -s /home/pi/pittl/noip /etc/init.d/noip
+# Put this script in the /home/pi/scripts folder
+# run sudo ln -s /home/pi/scripts/noip /etc/init.d/noip
 # sudo update-rc.d noip default
 # sudo vi /etc/sudoers
 # add :/home/pi/pittl to the "Defaults" "secure_path" section
@@ -29,7 +29,7 @@ DATE=$(date)
 NAME=noip2
 DAEMON=/usr/local/bin/noip2
 PID=$(pidof noip2)
-LOG=/home/pi/pittl/log
+LOG=/var/log/pilog
 
 case "$1" in
  start)
