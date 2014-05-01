@@ -35,7 +35,7 @@ case "$1" in
  start)
   echo "$DATE Startting $NAME" | tee -a $LOG
   $DAEMON 2>&1 | tee -a $LOG
-  echo "$DATE $NAME started $PID" | tee -a $LOG
+  echo "$DATE $NAME started PID=$(pidof noip2)" | tee -a $LOG
  ;;
 
  stop)
