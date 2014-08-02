@@ -11,6 +11,10 @@
 # Description:       Enable service provided by daemon
 ### END INIT INFO
 
+#Put this script in the /home/pi/scripts folder
+#run sudo ln -s /home/pi/scripts/vnc /etc/init.d/vnc
+# sudo update-rc.d vnc default
+
 #Export list of users that are allowed to start/shutdown the tightvncserver
 export USER='pi'
 
