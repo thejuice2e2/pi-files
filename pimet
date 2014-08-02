@@ -1,0 +1,62 @@
+#! /bin/sh
+# /etc/init.d/pimet
+#
+### BEGIN INIT INFO
+# Provides:          Kismet on boot
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start daemon at boot time
+# Description:       Enable service provided by daemon.
+### END INIT INFO
+
+# put this script in the /home/pi/scripts folder
+# run sudo ln -s /home/pi/scripts/pimet /etc/init.d/pimet
+# sudo update-rc.d pimet default
+
+# The below steps will allow the script to run when in root
+# sudo ln -s /home/pi/pittl/noip /usr/local/bin/noip
+
+# The lsb init functions
+. /lib/lsb/init-functions
+
+#variables
+DATE=$(date)
+NAME=kismet_server
+DAEMON='/usr/local/bin/kismet_server --daemonize'
+PID=$(pidof kismet_server)
+LOG=/var/log/pilog
+
+case "$1" in
+
+  start)
+   service ifplugd stop wlan0
+   killall /sbin/wpa_cli
+   killall /sbin/wpa_supplicant
+   $DAEMON
+   #/usr/local/bin/kismet_server --daemonize
+   echo "$DATE $NAME started PID=$(pidof kismet_server)" | tee -a $LOG
+   ;;
+
+  stop)
+   killall kismet_server
+   service ifplugd stop wlan0mon
+   ifconfig wlan0mon down
+   service ifplugd start
+   ifdown wlan0
+   ifup wlan0
+   echo "$DATE $NAME stopped" | tee -a $LOG
+   ;;
+
+ status)
+  status_of_proc $NAME "$NAME $PID process"
+  ;;
+
+ *)
+  echo "Usage: /usr/local/bin/kismet_server {start|stop|status}"
+ ;;
+
+esac
+
+exit 0
