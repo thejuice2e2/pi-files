@@ -13,7 +13,7 @@
 
 # put this script in the /home/pi/scripts folder
 # run sudo ln -s /home/pi/scripts/pimet /etc/init.d/pimet
-# sudo update-rc.d pimet default
+# sudo update-rc.d pimet defaults
 
 # The below steps will allow the script to run when in root
 # sudo ln -s /home/pi/pittl/noip /usr/local/bin/noip
