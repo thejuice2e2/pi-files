@@ -13,7 +13,7 @@
 
 # Put this script in the /home/pi/scripts folder
 # run sudo ln -s /home/pi/scripts/noip /etc/init.d/noip
-# sudo update-rc.d noip default
+# sudo update-rc.d noip defaults
 # sudo vi /etc/sudoers
 # add :/home/pi/pittl to the "Defaults" "secure_path" section
 # This will allow to run all the command functions as sudo
