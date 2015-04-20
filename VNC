@@ -1,0 +1,59 @@
+#! /bin/sh
+# /etc/init.d/vnc
+#
+### BEGIN INIT INFO
+# Provides:          tightvncserver
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Starts daemon at boot time
+# Description:       Enable service provided by daemon
+### END INIT INFO
+
+#Put this script in the /home/pi/scripts folder
+#run sudo ln -s /home/pi/scripts/vnc /etc/init.d/vnc
+# sudo update-rc.d vnc default
+
+#Export list of users that are allowed to start/shutdown the tightvncserver
+export USER='pi'
+
+#Variables
+DATE=$(date)
+
+case "$1" in
+
+  start)
+     su $USER -c '/usr/bin/tightvncserver -localhost :1'
+     echo "$DATE tightvncserver started PID=$(pidof Xtightvnc)" | tee -a /var/log/pilog
+     ;;
+
+  stop)
+     echo "$DATE tightvncserver stopped PID=$(pidof Xtightvnc)" | tee -a /var/log/pilog
+     killall Xtightvnc
+     ;;
+
+  restart)
+     echo "$DATE tightvncserver stopped PID=$(pidof Xtightvnc)" | tee -a /var/log/pilog
+     killall Xtightvnc
+     su $USER -c '/usr/bin/tightvncserver -localhost :1'
+     echo "$DATE tightvncserver startted PID=$(pidof Xtightvnc)" | tee -a /var/log/pilog
+     ;;
+
+  status)
+     if ps aux | grep [X]tightvnc > /dev/null
+      then
+       echo "PID=$(pidof Xtightvnc) tightvncserver is running..."
+      else
+       echo "tightvncserver is stopped..."
+     fi
+     ;;
+
+  *)
+     echo "Usage: /etc/init.d/tightvncserver {start|stop|restart|status}"
+     exit 1
+     ;;
+
+esac
+
+exit 0
