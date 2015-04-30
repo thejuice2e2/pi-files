@@ -31,7 +31,7 @@ LOG=/var/log/pilog
 case "$1" in
 
   start)
-   service ifplugd stop wlan0
+   service ifplugd stop
    killall /sbin/wpa_cli
    killall /sbin/wpa_supplicant
    $DAEMON
@@ -41,11 +41,11 @@ case "$1" in
 
   stop)
    killall kismet_server
-   service ifplugd stop wlan0mon
    ifconfig wlan0mon down
-   service ifplugd start
-   ifdown wlan0
-   ifup wlan0
+   ifconfig wlan0 down
+   ifconfig wlan0 up
+   service ifplugd restart
+   service networking restart
    echo "$DATE $NAME stopped" | tee -a $LOG
    ;;
 
