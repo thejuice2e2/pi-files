@@ -1,0 +1,14 @@
+kill the wpa processes for the wireless card
+
+run airmon-ng start wlan0
+
+kill the wpa processes for the wireless card
+
+run airodump-ng --cswitch1 mon0 (this will run a round robin scan on the wifi card)
+
+find the ssid you are interested in and do this
+airodump-ng -c # --bssid xx:xx:xx:xx:xx:xx -w filename mon0
+
+then do an aireplay-ng attack
+
+Once enough packets have been collected then run aircrack-ng against the .cap file
