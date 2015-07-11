@@ -1,0 +1,25 @@
+pi@raspberrypi:~$ sudo killall gpsd
+pi@raspberrypi:~$ sudo gpsd /dev/ttyUSB0 -F /var/run/gpsd.sock
+pi@raspberrypi:~$ sudo service ntp restart
+
+cpgs
+gpsmon
+
+
+ssh -Y #into the rpi2e2
+xgps
+
+Setting the computer time using GPS
+
+Now we have a working GPS we can now get the PI to use it for setting the time. To do this we need to configure ntp to use the GPS satellites as a time source. Now you should already have ntp installed but if not then you need to install it:
+pi@raspberrypi:~$ sudo apt-get install ntp
+Next you need to edit the file: /etc/ntp.conf and add a few lines to it defining the GPS. This can be either before or after the existing lines beginning with server:
+# gps ntp
+server 127.127.28.0 minpoll 4
+fudge  127.127.28.0 time1 0.183 refid NMEA
+server 127.127.28.1 minpoll 4 prefer
+fudge  127.127.28.1 refid PPS
+Now restart ntp:
+pi@raspberrypi:~$ sudo service ntp restart
+Now if you query the server you should after a while see it synchronize:
+pi@raspberrypi:~$ ntpq -p
