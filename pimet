@@ -41,6 +41,7 @@ case "$1" in
   stop)
    killall kismet_server
    airmon-ng stop wlan0mon
+   service networking restart
    echo "$DATE $NAME stopped" | tee -a $LOG
    ;;
 
