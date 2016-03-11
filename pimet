@@ -33,15 +33,14 @@ case "$1" in
   start)
    airmon-ng check kill
    airmon-ng start wlan0
+   service ifplugd stop wlan0mon
    $DAEMON
-   #/usr/local/bin/kismet_server --daemonize
    echo "$DATE $NAME started PID=$(pidof kismet_server)" | tee -a $LOG
    ;;
 
   stop)
    killall kismet_server
    airmon-ng stop wlan0mon
-   service ifplugd start
    echo "$DATE $NAME stopped" | tee -a $LOG
    ;;
 
